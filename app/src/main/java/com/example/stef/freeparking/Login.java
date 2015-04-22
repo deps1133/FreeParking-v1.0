@@ -7,18 +7,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.*;
 
 
 public class Login extends ActionBarActivity {
-    String theresult = "";
 
-    public static String sqlMain ( String query )
+    static Spot spots[];
+
+    public static void sqlMain ( String query )
     {
-        String r="";
+
         String url = "jdbc:mysql://maxwell.sju.edu:3306/";
         Connection   con;
         Statement    stmt;
@@ -43,24 +44,24 @@ public class Login extends ActionBarActivity {
 
             // Submit a query, creating a ResultSet object
             rs = stmt.executeQuery(query);
-            r = iterateResult(rs);
+            iterateResult(rs);
 
             stmt.close();
             con.close();
         }
         catch (Exception e)
         {e.printStackTrace();}
-        return r;
     }
 
     public void dbCall(View view) {
         new Thread(new Runnable(){
             public void run(){
-                theresult = sqlMain("select latitude from parkinglot where name = 'mandeville';");
+                sqlMain("select * from mandevilleA where vacant = 1;");
             }
         }).start();
-        Toast.makeText(getApplicationContext(), theresult, Toast.LENGTH_SHORT).show();
+
     }
+
 
     public void toMaps(View view) {
         Intent intent = new Intent(Login.this, mapsPage.class);
@@ -68,25 +69,22 @@ public class Login extends ActionBarActivity {
     }
 
     //***
-    private static String iterateResult(ResultSet rs)
+    private static void iterateResult(ResultSet rs)
             throws SQLException
     {
-        String result = "";
+        int count = 0;
         int numCols = rs.getMetaData().getColumnCount();
-
-        result = "";
-        for (int j=1; j<=numCols; j++)
-            result +=
-                    (rs.getMetaData().getColumnName(j)+"\t");
-        result += "\n";
-
         while (rs.next())
         {
-            for (int i=1; i<=numCols; i++)
-                result += (rs.getString(i) + "\t");
-            result += "\n";
+            for (int i=1; i<=numCols; i++){
+                if(rs.getMetaData().getColumnName(i).equals("latitude"))
+                    spots[count].latitude = rs.getDouble(i);
+                if (rs.getMetaData().getColumnName(i).equals("longitude"))
+                    spots[count].longitude = rs.getDouble(i);
+            }
+            count++;
         }
-        return result;
+
     }
 
 
@@ -94,6 +92,15 @@ public class Login extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        spots = new Spot[10];
+        for(int i = 0; i < 10; i++){
+            spots[i] = new Spot();
+        }
+        new Thread(new Runnable(){
+            public void run(){
+                sqlMain("select * from mandevilleA where vacant = 1;");
+            }
+        }).start();
     }
 
 

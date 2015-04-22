@@ -1,4 +1,4 @@
- package com.example.stef.freeparking;
+package com.example.stef.freeparking;
 
 
 import android.content.Context;
@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.*;
 import java.security.Provider;
 
 
- public class mapsPage extends FragmentActivity implements OnMapReadyCallback {
+public class mapsPage extends FragmentActivity implements OnMapReadyCallback {
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ import java.security.Provider;
         mapFragment.getMapAsync(this);
     }
 
-     private Location getMyLocation (String provider) {
+    private Location getMyLocation (String provider) {
         Location myLoc = null;
         LocationManager locationManager= (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         try {
@@ -41,51 +41,51 @@ import java.security.Provider;
 
         }
         return myLoc;
-     }
+    }
 
 
 
-     public void onMapReady(GoogleMap map) {
+    public void onMapReady(GoogleMap map) {
         Location me= getMyLocation(LocationManager.GPS_PROVIDER);
-        LatLng myPosition = new LatLng( me.getLatitude(), me.getLongitude());
+        //LatLng myPosition = new LatLng( me.getLatitude(), me.getLongitude());
         map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng( me.getLatitude(), me.getLongitude()), 13));
+        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng( me.getLatitude(), me.getLongitude()), 13));
         markMap(map);
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
-             @Override
-             public void onInfoWindowClick(Marker marker) {
-                 if(marker.getTitle().equals("SJU")){
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if(marker.getTitle().equals("SJU")){
                     Intent intent = new Intent(mapsPage.this, sju.class);
                     startActivity(intent);
-                 }
-                 else {
-                     Intent intent = new Intent(mapsPage.this, drexel.class);
-                     startActivity(intent);
-                 }
+                }
+                else {
+                    Intent intent = new Intent(mapsPage.this, drexel.class);
+                    startActivity(intent);
+                }
 
 
-         }
-     });
-     }
-     public void markMap(GoogleMap map){
+            }
+        });
+    }
+    public void markMap(GoogleMap map){
 
-         //sju
-         LatLng mandevilleA = new LatLng (39.996408, -75.235913);
-         Marker sju = map.addMarker(new MarkerOptions()
-                 .title("SJU")
-                 .snippet("Saint Joseph's University")
-                 .position(mandevilleA));
+        //sju
+        LatLng mandevilleA = new LatLng (39.996408, -75.235913);
+        Marker sju = map.addMarker(new MarkerOptions()
+                .title("SJU")
+                .snippet("Saint Joseph's University")
+                .position(mandevilleA));
 
-         //drexel
-         LatLng drexelA = new LatLng (39.955594, -75.191801);
-         Marker drexel = map.addMarker(new MarkerOptions()
-                 .title("Drexel University")
-                 .snippet("Drexel University Parking Lot A")
-                 .position(drexelA));
+        //drexel
+        LatLng drexelA = new LatLng (39.955594, -75.191801);
+        Marker drexel = map.addMarker(new MarkerOptions()
+                .title("Drexel University")
+                .snippet("Drexel University Parking Lot A")
+                .position(drexelA));
 
 
-     }
+    }
 
 
 
