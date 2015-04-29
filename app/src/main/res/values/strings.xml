@@ -10,5 +10,7 @@
     <string name="title_activity_create_account">createAccount</string>
     <string name="title_activity_drexel">drexel</string>
     <string name="title_activity_sju">sju</string>
+    <string name="title_activity_sju_map">sjuMap</string>
+    <string name="title_activity_street_view">streetView</string>
 
 </resources>

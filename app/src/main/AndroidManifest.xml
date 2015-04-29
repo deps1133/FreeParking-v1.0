@@ -69,6 +69,14 @@
             android:name=".sju"
             android:label="@string/title_activity_sju" >
         </activity>
+        <activity
+            android:name=".sjuMap"
+            android:label="@string/title_activity_sju_map" >
+        </activity>
+        <activity
+            android:name=".streetView"
+            android:label="@string/title_activity_street_view" >
+        </activity>
     </application>
 
 </manifest>
